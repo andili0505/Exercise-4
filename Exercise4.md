@@ -136,19 +136,152 @@ rm(examiner_names_gender)
 gc()
        
 ```
+## Now we guess the examiner’s race using package (wru)
        
+```r
+library(wru)
+       
+```
+           
+``` r
+examiner_surnames <- applications %>% 
+  select(surname = examiner_name_last) %>% 
+  distinct()
+examiner_surnames
+       
+```
+## # A tibble: 3,806 × 1
+##    surname   
+##    <chr>     
+##  1 HOWARD    
+##  2 YILDIRIM  
+##  3 HAMILTON  
+##  4 MOSHER    
+##  5 BARR      
+##  6 GRAY      
+##  7 MCMILLIAN 
+##  8 FORD      
+##  9 STRZELECKA
+## 10 KIM       
+## # … with 3,796 more rows
        
        
 ``` r
-
+examiner_race <- predict_race(voter.file = examiner_surnames, surname.only = T) %>% 
+  as_tibble()
+       
 ```
 
-       
        
 ``` r
-
+examiner_race
+       
 ```
 
+    ## # A tibble: 3,806 × 6
+    ##    surname    pred.whi pred.bla pred.his pred.asi pred.oth
+    ##    <chr>         <dbl>    <dbl>    <dbl>    <dbl>    <dbl>
+    ##  1 HOWARD       0.643   0.295    0.0237   0.005     0.0333
+    ##  2 YILDIRIM     0.861   0.0271   0.0609   0.0135    0.0372
+    ##  3 HAMILTON     0.702   0.237    0.0245   0.0054    0.0309
+    ##  4 MOSHER       0.947   0.00410  0.0241   0.00640   0.0185
+    ##  5 BARR         0.827   0.117    0.0226   0.00590   0.0271
+    ##  6 GRAY         0.687   0.251    0.0241   0.0054    0.0324
+    ##  7 MCMILLIAN    0.359   0.574    0.0189   0.00260   0.0463
+    ##  8 FORD         0.620   0.32     0.0237   0.0045    0.0313
+    ##  9 STRZELECKA   0.666   0.0853   0.137    0.0797    0.0318
+    ## 10 KIM          0.0252  0.00390  0.00650  0.945     0.0198
+    ## # … with 3,796 more rows
+
        
+## Now we can pick the race category that has the highest probability for each last name 
+       
+``` r
+examiner_race <- examiner_race %>% 
+  mutate(max_race_p = pmax(pred.asi, pred.bla, pred.his, pred.oth, pred.whi)) %>% 
+  mutate(race = case_when(
+    max_race_p == pred.asi ~ "Asian",
+    max_race_p == pred.bla ~ "black",
+    max_race_p == pred.his ~ "Hispanic",
+    max_race_p == pred.oth ~ "other",
+    max_race_p == pred.whi ~ "white",
+    TRUE ~ NA_character_
+  ))
+examiner_race
+       
+```
+    ## # A tibble: 3,806 × 8
+    ##    surname    pred.whi pred.bla pred.his pred.asi pred.oth max_race_p race 
+    ##    <chr>         <dbl>    <dbl>    <dbl>    <dbl>    <dbl>      <dbl> <chr>
+    ##  1 HOWARD       0.643   0.295    0.0237   0.005     0.0333      0.643 white
+    ##  2 YILDIRIM     0.861   0.0271   0.0609   0.0135    0.0372      0.861 white
+    ##  3 HAMILTON     0.702   0.237    0.0245   0.0054    0.0309      0.702 white
+    ##  4 MOSHER       0.947   0.00410  0.0241   0.00640   0.0185      0.947 white
+    ##  5 BARR         0.827   0.117    0.0226   0.00590   0.0271      0.827 white
+    ##  6 GRAY         0.687   0.251    0.0241   0.0054    0.0324      0.687 white
+    ##  7 MCMILLIAN    0.359   0.574    0.0189   0.00260   0.0463      0.574 black
+    ##  8 FORD         0.620   0.32     0.0237   0.0045    0.0313      0.620 white
+    ##  9 STRZELECKA   0.666   0.0853   0.137    0.0797    0.0318      0.666 white
+    ## 10 KIM          0.0252  0.00390  0.00650  0.945     0.0198      0.945 Asian
+    ## # … with 3,796 more rows
+ 
+       
+``` r
+# Now we can join it back to the applications data:
+       
+applications <- applications %>% 
+  left_join(examiner_dates, by = "examiner_id")
+rm(examiner_dates)
+gc()
+       
+```
+
+    ##            used  (Mb) gc trigger   (Mb)  max used (Mb)
+    ## Ncells  5164923 275.9   15221244  813.0  15221244  813
+    ## Vcells 66116044 504.5  134585703 1026.9 134348027 1025
+
+       
+```r
+Apps <- Apps %>% 
+  left_join(ex_race, by = c("examiner_name_last" = "surname"))
+
+```
+       
+## Tenure
+```r
+library(lubridate) 
+```
+
+```r
+ex_dates <- Apps %>% 
+  select(examiner_id, filing_date, appl_status_date) 
+```
+
+```r
+ex_dates <- ex_dates %>% 
+  mutate(start_date = ymd(filing_date), end_date = as_date(dmy_hms(appl_status_date)))
+```
+
+```r
+ex_dates <- ex_dates %>% 
+  group_by(examiner_id) %>% 
+  summarise(
+    earliest_date = min(start_date, na.rm = TRUE), 
+    latest_date = max(end_date, na.rm = TRUE),
+    tenure_days = interval(earliest_date, latest_date) %/% days(1)
+    ) %>% 
+  filter(year(latest_date)<2018)
+```
+
+```r
+Apps <- Apps %>% 
+  left_join(ex_dates, by = "examiner_id")
+```
+
+  
+## Application Processing Time   
+       
+       
+
        
        
