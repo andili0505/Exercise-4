@@ -14,15 +14,15 @@ applications <- read_parquet("app_data_sample.parquet", as_tibble = TRUE)
 edges <- read_csv("edges_sample.csv")
 
 ```
-    ## Rows: 32906 Columns: 4
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr  (1): application_number
-    ## dbl  (2): ego_examiner_id, alter_examiner_id
-    ## date (1): advice_date
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+     Rows: 32906 Columns: 4
+     ── Column specification ────────────────────────────────────────────────────────
+     Delimiter: ","
+     chr  (1): application_number
+     dbl  (2): ego_examiner_id, alter_examiner_id
+     date (1): advice_date
+     
+     ℹ Use `spec()` to retrieve the full column specification for this data.
+     ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
 applications
@@ -41,8 +41,8 @@ applications
  8 08765941           2000-06-23  FORD             VANESSA          L                      97543             1645 424       
  9 08776818           2000-02-04  STRZELECKA       TERESA           E                      98714             1637 435       
 10 08809677           2002-02-20  KIM              SUN              U                      65530             1723 210       
-# ... with 2,018,467 more rows, and 8 more variables: uspc_subclass <chr>, patent_number <chr>, patent_issue_date <date>,
-#   abandon_date <date>, disposal_type <chr>, appl_status_code <dbl>, appl_status_date <chr>, tc <dbl>
+ ... with 2,018,467 more rows, and 8 more variables: uspc_subclass <chr>, patent_number <chr>, patent_issue_date <date>,
+   abandon_date <date>, disposal_type <chr>, appl_status_code <dbl>, appl_status_date <chr>, tc <dbl>
 
 
 ``` r
@@ -105,20 +105,20 @@ examiner_names
 examiner_names_gender   
        
 ```
-## # A tibble: 1,822 × 3
-##    examiner_name_first gender proportion_female
-##    <chr>               <chr>              <dbl>
-##  1 AARON               male              0.0082
-##  2 ABDEL               male              0     
-##  3 ABDOU               male              0     
-##  4 ABDUL               male              0     
-##  5 ABDULHAKIM          male              0     
-##  6 ABDULLAH            male              0     
-##  7 ABDULLAHI           male              0     
-##  8 ABIGAIL             female            0.998 
-##  9 ABIMBOLA            female            0.944 
-## 10 ABRAHAM             male              0.0031
-## # … with 1,812 more rows
+    A tibble: 1,822 × 3
+    examiner_name_first gender proportion_female
+    <chr>               <chr>              <dbl>
+  1 AARON               male              0.0082
+  2 ABDEL               male              0     
+  3 ABDOU               male              0     
+  4 ABDUL               male              0     
+  5 ABDULHAKIM          male              0     
+  6 ABDULLAH            male              0     
+  7 ABDULLAHI           male              0     
+  8 ABIGAIL             female            0.998 
+  9 ABIMBOLA            female            0.944 
+ 10 ABRAHAM             male              0.0031
+  … with 1,812 more rows
        
        
 ``` r
@@ -150,20 +150,20 @@ examiner_surnames <- applications %>%
 examiner_surnames
        
 ```
-## # A tibble: 3,806 × 1
-##    surname   
-##    <chr>     
-##  1 HOWARD    
-##  2 YILDIRIM  
-##  3 HAMILTON  
-##  4 MOSHER    
-##  5 BARR      
-##  6 GRAY      
-##  7 MCMILLIAN 
-##  8 FORD      
-##  9 STRZELECKA
-## 10 KIM       
-## # … with 3,796 more rows
+    A tibble: 3,806 × 1
+    surname   
+    <chr>     
+  1 HOWARD    
+  2 YILDIRIM  
+  3 HAMILTON  
+  4 MOSHER    
+  5 BARR      
+  6 GRAY      
+  7 MCMILLIAN 
+  8 FORD      
+  9 STRZELECKA
+ 10 KIM       
+  … with 3,796 more rows
        
        
 ``` r
@@ -178,20 +178,20 @@ examiner_race
        
 ```
 
-    ## # A tibble: 3,806 × 6
-    ##    surname    pred.whi pred.bla pred.his pred.asi pred.oth
-    ##    <chr>         <dbl>    <dbl>    <dbl>    <dbl>    <dbl>
-    ##  1 HOWARD       0.643   0.295    0.0237   0.005     0.0333
-    ##  2 YILDIRIM     0.861   0.0271   0.0609   0.0135    0.0372
-    ##  3 HAMILTON     0.702   0.237    0.0245   0.0054    0.0309
-    ##  4 MOSHER       0.947   0.00410  0.0241   0.00640   0.0185
-    ##  5 BARR         0.827   0.117    0.0226   0.00590   0.0271
-    ##  6 GRAY         0.687   0.251    0.0241   0.0054    0.0324
-    ##  7 MCMILLIAN    0.359   0.574    0.0189   0.00260   0.0463
-    ##  8 FORD         0.620   0.32     0.0237   0.0045    0.0313
-    ##  9 STRZELECKA   0.666   0.0853   0.137    0.0797    0.0318
-    ## 10 KIM          0.0252  0.00390  0.00650  0.945     0.0198
-    ## # … with 3,796 more rows
+        A tibble: 3,806 × 6
+        surname    pred.whi pred.bla pred.his pred.asi pred.oth
+        <chr>         <dbl>    <dbl>    <dbl>    <dbl>    <dbl>
+      1 HOWARD       0.643   0.295    0.0237   0.005     0.0333
+      2 YILDIRIM     0.861   0.0271   0.0609   0.0135    0.0372
+      3 HAMILTON     0.702   0.237    0.0245   0.0054    0.0309
+      4 MOSHER       0.947   0.00410  0.0241   0.00640   0.0185
+      5 BARR         0.827   0.117    0.0226   0.00590   0.0271
+      6 GRAY         0.687   0.251    0.0241   0.0054    0.0324
+      7 MCMILLIAN    0.359   0.574    0.0189   0.00260   0.0463
+      8 FORD         0.620   0.32     0.0237   0.0045    0.0313
+      9 STRZELECKA   0.666   0.0853   0.137    0.0797    0.0318
+     10 KIM          0.0252  0.00390  0.00650  0.945     0.0198
+      … with 3,796 more rows
 
        
 ## Now we can pick the race category that has the highest probability for each last name 
@@ -227,7 +227,7 @@ examiner_race
  
        
 ``` r
-# Now we can join it back to the applications data:
+## Now we can join it back to the applications data:
        
 applications <- applications %>% 
   left_join(examiner_dates, by = "examiner_id")
@@ -236,9 +236,9 @@ gc()
        
 ```
 
-    ##            used  (Mb) gc trigger   (Mb)  max used (Mb)
-    ## Ncells  5164923 275.9   15221244  813.0  15221244  813
-    ## Vcells 66116044 504.5  134585703 1026.9 134348027 1025
+                used  (Mb) gc trigger   (Mb)  max used (Mb)
+     Ncells  5164923 275.9   15221244  813.0  15221244  813
+     Vcells 66116044 504.5  134585703 1026.9 134348027 1025
 
        
 ```r
