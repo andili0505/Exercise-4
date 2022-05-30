@@ -3,12 +3,14 @@ Exercise 4
 
 ``` r
 library(readr)
+library(arrow)
+library(dplyr)
 
 ```
 
 ``` r
 data_path <- "C:/Users/user/Desktop/Summer 2022/ORGB-672 Org Network/Exercise 4"
-applications <- read_parquet(data_path,"app_data_sample.parquet")
+applications <- read_parquet("app_data_sample.parquet", as_tibble = TRUE)
 edges <- read_csv("edges_sample.csv")
 
 ```
@@ -64,6 +66,8 @@ edges
 
 ##  Gender, Race, Tenure
 
+## Get gender for examiners
+       
 ``` r
 examiner_names <- applications %>% 
   distinct(examiner_name_first)
@@ -88,13 +92,49 @@ examiner_names
        
        
 ``` r
-
+#Get a table of names and gender
+       
+ examiner_names_gender <- examiner_names %>% 
+  do(results = gender(.$examiner_name_first, method = "ssa")) %>% 
+  unnest(cols = c(results), keep_empty = TRUE) %>% 
+  select(
+    examiner_name_first = name,
+    gender,
+    proportion_female
+  )
+examiner_names_gender   
+       
 ```
-
+## # A tibble: 1,822 × 3
+##    examiner_name_first gender proportion_female
+##    <chr>               <chr>              <dbl>
+##  1 AARON               male              0.0082
+##  2 ABDEL               male              0     
+##  3 ABDOU               male              0     
+##  4 ABDUL               male              0     
+##  5 ABDULHAKIM          male              0     
+##  6 ABDULLAH            male              0     
+##  7 ABDULLAHI           male              0     
+##  8 ABIGAIL             female            0.998 
+##  9 ABIMBOLA            female            0.944 
+## 10 ABRAHAM             male              0.0031
+## # … with 1,812 more rows
        
        
 ``` r
+# remove extra columns from the gender table
+examiner_names_gender <- examiner_names_gender %>% 
+  select(examiner_name_first, gender)
 
+# joining gender back to the dataset
+applications <- applications %>% 
+  left_join(examiner_names_gender, by = "examiner_name_first")
+
+# cleaning up
+rm(examiner_names)
+rm(examiner_names_gender)
+gc()
+       
 ```
        
        
