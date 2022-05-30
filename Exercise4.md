@@ -28,7 +28,7 @@ edges <- read_csv("edges_sample.csv")
 applications
 
 ```
-# A tibble: 2,018,477 x 16
+  A tibble: 2,018,477 x 16
    application_number filing_date examiner_name_l~ examiner_name_f~ examiner_name_m~ examiner_id examiner_art_un~ uspc_class
    <chr>              <date>      <chr>            <chr>            <chr>                  <dbl>            <dbl> <chr>     
  1 08284457           2000-01-26  HOWARD           JACQUELINE       V                      96082             1764 508       
@@ -49,7 +49,7 @@ applications
 edges
 
 ```
-# A tibble: 32,906 x 4
+   A tibble: 32,906 x 4
    application_number advice_date ego_examiner_id alter_examiner_id
    <chr>              <date>                <dbl>             <dbl>
  1 09402488           2008-11-17            84356             66266
@@ -75,7 +75,7 @@ examiner_names <- applications %>%
 examiner_names
 
 ```
-# A tibble: 2,595 x 1
+   A tibble: 2,595 x 1
    examiner_name_first
    <chr>              
  1 JACQUELINE         
@@ -210,20 +210,20 @@ examiner_race <- examiner_race %>%
 examiner_race
        
 ```
-    ## # A tibble: 3,806 × 8
-    ##    surname    pred.whi pred.bla pred.his pred.asi pred.oth max_race_p race 
-    ##    <chr>         <dbl>    <dbl>    <dbl>    <dbl>    <dbl>      <dbl> <chr>
-    ##  1 HOWARD       0.643   0.295    0.0237   0.005     0.0333      0.643 white
-    ##  2 YILDIRIM     0.861   0.0271   0.0609   0.0135    0.0372      0.861 white
-    ##  3 HAMILTON     0.702   0.237    0.0245   0.0054    0.0309      0.702 white
-    ##  4 MOSHER       0.947   0.00410  0.0241   0.00640   0.0185      0.947 white
-    ##  5 BARR         0.827   0.117    0.0226   0.00590   0.0271      0.827 white
-    ##  6 GRAY         0.687   0.251    0.0241   0.0054    0.0324      0.687 white
-    ##  7 MCMILLIAN    0.359   0.574    0.0189   0.00260   0.0463      0.574 black
-    ##  8 FORD         0.620   0.32     0.0237   0.0045    0.0313      0.620 white
-    ##  9 STRZELECKA   0.666   0.0853   0.137    0.0797    0.0318      0.666 white
-    ## 10 KIM          0.0252  0.00390  0.00650  0.945     0.0198      0.945 Asian
-    ## # … with 3,796 more rows
+    A tibble: 3,806 × 8
+        surname    pred.whi pred.bla pred.his pred.asi pred.oth max_race_p race 
+        <chr>         <dbl>    <dbl>    <dbl>    <dbl>    <dbl>      <dbl> <chr>
+      1 HOWARD       0.643   0.295    0.0237   0.005     0.0333      0.643 white
+      2 YILDIRIM     0.861   0.0271   0.0609   0.0135    0.0372      0.861 white
+      3 HAMILTON     0.702   0.237    0.0245   0.0054    0.0309      0.702 white
+      4 MOSHER       0.947   0.00410  0.0241   0.00640   0.0185      0.947 white
+      5 BARR         0.827   0.117    0.0226   0.00590   0.0271      0.827 white
+      6 GRAY         0.687   0.251    0.0241   0.0054    0.0324      0.687 white
+      7 MCMILLIAN    0.359   0.574    0.0189   0.00260   0.0463      0.574 black
+      8 FORD         0.620   0.32     0.0237   0.0045    0.0313      0.620 white
+      9 STRZELECKA   0.666   0.0853   0.137    0.0797    0.0318      0.666 white
+     10 KIM          0.0252  0.00390  0.00650  0.945     0.0198      0.945 Asian
+      … with 3,796 more rows
  
        
 ``` r
